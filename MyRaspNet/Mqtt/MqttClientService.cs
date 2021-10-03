@@ -201,7 +201,6 @@ namespace MyRaspNet.Mqtt
         }
         private async void OnApplicationMessageReceived(MQTTnet.MqttApplicationMessageReceivedEventArgs e)
         {
-            
             if (MQTTnet.Server.MqttTopicFilterComparer.IsMatch(e.ApplicationMessage.Topic, string.Format("{0}/{1}/#", settings.MQTTTopic, AppSettings.CommandTopic)))
             {
                 // command
@@ -214,23 +213,17 @@ namespace MyRaspNet.Mqtt
                 string filter = string.Format("{0}/{1}/in/", settings.MQTTTopic, AppSettings.IoTTopic);
                 if (settings.MQTTMode == MQTTMode.Bridge)
                 {
-                    string newTopic = e.ApplicationMessage.Topic.Remove(0, filter.Length);
+                    string newTopic = string.Format("/{0}", e.ApplicationMessage.Topic.Remove(0, filter.Length));
+                    logger.LogInformation(newTopic);
+                    var msg = new MQTTnet.MqttApplicationMessageBuilder()
+                        .WithTopic(newTopic)
+                        .WithPayload(e.ApplicationMessage.Payload)
+                        .WithQualityOfServiceLevel(e.ApplicationMessage.QualityOfServiceLevel)
+                        .WithRetainFlag(e.ApplicationMessage.Retain)
+                        .Build();
+
                     // Republish to Local Server
-                    await server.PublishAsync(new MqttApplicationMessage()
-                    {
-                        Topic = newTopic,
-                        Payload = e.ApplicationMessage.Payload,
-                        ContentType = e.ApplicationMessage.ContentType,
-                        CorrelationData = e.ApplicationMessage.CorrelationData,
-                        Dup = e.ApplicationMessage.Dup,
-                        MessageExpiryInterval = e.ApplicationMessage.MessageExpiryInterval,
-                        PayloadFormatIndicator = e.ApplicationMessage.PayloadFormatIndicator,
-                        QualityOfServiceLevel = e.ApplicationMessage.QualityOfServiceLevel,
-                        ResponseTopic = e.ApplicationMessage.ResponseTopic,
-                        Retain = e.ApplicationMessage.Retain,
-                        SubscriptionIdentifiers = e.ApplicationMessage.SubscriptionIdentifiers,
-                        TopicAlias = e.ApplicationMessage.TopicAlias
-                    });
+                    await server.PublishAsync(msg);
                 }
             }
         }
