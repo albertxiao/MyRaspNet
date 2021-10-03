@@ -214,7 +214,6 @@ namespace MyRaspNet.Mqtt
                 if (settings.MQTTMode == MQTTMode.Bridge)
                 {
                     string newTopic = string.Format("/{0}", e.ApplicationMessage.Topic.Remove(0, filter.Length));
-                    logger.LogInformation(newTopic);
                     var msg = new MQTTnet.MqttApplicationMessageBuilder()
                         .WithTopic(newTopic)
                         .WithPayload(e.ApplicationMessage.Payload)
