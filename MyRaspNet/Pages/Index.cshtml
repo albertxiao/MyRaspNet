@@ -1,0 +1,366 @@
+﻿@page
+@using Newtonsoft.Json
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var chartLabelArr = new string[] { "CPU Load", "CPU Temperature", "Memory Load" };
+    var chartIDArr = new string[] { "CPULoad", "CPUTemp", "MemoryLoad" };
+    int maxLiveHistory = 60;
+    int currentMaxHistoryCount = int.MaxValue;
+    if (Model.SystemInfo.MemoryLoadHistory.Count < currentMaxHistoryCount)
+        currentMaxHistoryCount = Model.SystemInfo.MemoryLoadHistory.Count;
+    if (Model.SystemInfo.CPULoadHistory.Count < currentMaxHistoryCount)
+        currentMaxHistoryCount = Model.SystemInfo.CPULoadHistory.Count;
+    if (Model.SystemInfo.CPUTempHistory.Count < currentMaxHistoryCount)
+        currentMaxHistoryCount = Model.SystemInfo.CPUTempHistory.Count;
+    if (currentMaxHistoryCount > maxLiveHistory)
+        currentMaxHistoryCount = maxLiveHistory;
+    var cpuHist = Model.SystemInfo.CPULoadHistory.Take(currentMaxHistoryCount).ToArray();
+    var tempHist = Model.SystemInfo.CPUTempHistory.Take(currentMaxHistoryCount).ToArray();
+    var memHist = Model.SystemInfo.MemoryLoadHistory.Take(currentMaxHistoryCount).ToArray();
+    List<object> histDataLst = new List<object>();
+    for (int i = 0; i < currentMaxHistoryCount; i++)
+        histDataLst.Add(new { Time = cpuHist[i].Time, CPULoad = cpuHist[i].Data, CPUTemp = tempHist[i].Data, MemoryLoad = memHist[i].Data }); ;
+
+}
+@section Head {
+    <link href="~/css/nextgenicons.css" rel="stylesheet" />
+    <link href="~/css/materialdesignicons.css" rel="stylesheet" />
+    <link href="~/css/statistics/chartjs/chartjs.css" rel="stylesheet" />
+}
+@Html.AntiForgeryToken()
+
+<section>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between px-md-1">
+                        <div class="align-self-center">
+                            <i class="mdi mdi-memory text-info font-3x"></i>
+                        </div>
+                        <div class="text-end">
+                            <h3 id="lblCPULoad">@(Model.SystemInfo != null ? Model.SystemInfo.CPULoad.ToString("n2") : "0") %</h3>
+                            <p class="mb-0">CPU</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between px-md-1">
+                        <div class="align-self-center">
+                            <i class="fal fa-thermometer-quarter text-danger font-3x"></i>
+                        </div>
+                        <div class="text-end">
+                            <h3 id="lblCPUTemp">@(Model.SystemInfo != null ? Model.SystemInfo.CPUTemp.ToString("n2") : "0") C</h3>
+                            <p class="mb-0">Temp</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between px-md-1">
+                        <div class="align-self-center">
+                            <i class="fal fa-memory text-warning font-3x"></i>
+                        </div>
+                        <div class="text-end">
+                            <h3 id="lblMemoryLoad">@(Model.SystemInfo != null ? Model.SystemInfo.MemoryLoad.ToString("n2") : "0") %</h3>
+                            <p class="mb-0">Memory</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between px-md-1">
+                        <div class="align-self-center">
+                            <i class="mdi mdi-gauge text-danger font-3x"></i>
+                        </div>
+                        <div class="text-end">
+                            <h3 id="lblEnergy"></h3>
+                            <p class="mb-0">Network</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row">
+        <div class="col-12">
+
+            <ul class="nav nav-tabs" role="tablist" id="deviceData-tabHeader">
+                <li class="nav-item active">
+                    <a class="nav-link active px-4 fs-md js-waves-on fw-500" data-toggle="tab" href="#deviceData-Info"><i class="fal fa-info"></i> System Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-4 fs-md js-waves-on fw-500" data-toggle="tab" href="#deviceData-Live"><i class="fal fa-chart-line"></i> Live Chart</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="deviceData-Info" class="tab-pane fade show active p-3" role="tabpanel">
+                    @if (Model.SystemInfo != null)
+                    {
+                        <form>
+                            <div class="form-group row">
+                                <label for="tbModel" class="col-sm-2 col-form-label">Model</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.Model
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tbSerial" class="col-sm-2 col-form-label">Serial</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.Serial
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tbHardware" class="col-sm-2 col-form-label">Hardware</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.Hardware
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tbRevision" class="col-sm-2 col-form-label">Revision</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.Revision
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tbTotalMemory" class="col-sm-2 col-form-label">Total Memory</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.TotalMemory.ToString("n0") kB
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tbOSVersion" class="col-sm-2 col-form-label">OS Version</label>
+                                <div class="col-sm-10">
+                                    @Model.SystemInfo.OSVersion
+                                </div>
+                            </div>
+                        </form>
+                    }
+                </div>
+                <div id="deviceData-Live" class="tab-pane fade p-3" role="tabpanel">
+                    @for (int i = 0; i < chartLabelArr.Length; i++)
+                    {
+                        var lbl = chartLabelArr[i];
+                        var id = chartIDArr[i];
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>@(lbl)</h4>
+                                <div style="height: 150px">
+                                    <canvas class="w-100" id="@("chart" + id)"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/moment/moment.js"></script>
+    <script src="~/js/statistics/chartjs/chartjs.bundle.js"></script>
+    <script type="text/javascript">
+        var maxData = @(maxLiveHistory);
+        var hourFormat = 'HH:mm';
+        var timeFormat = 'DD MMM YYYY HH:mm';
+        var historyDataArr = @Html.Raw(JsonConvert.SerializeObject(histDataLst));
+        var chartLabelArr = @Html.Raw(JsonConvert.SerializeObject(chartLabelArr));
+        var chartIDArr = @Html.Raw(JsonConvert.SerializeObject(chartIDArr));
+        var liveChart = new Object();
+        function createChart(ctx, chartType = 'line') {
+            var chart = new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            data: [],
+                            //lineTension: 0,
+                            fill: true,
+                            backgroundColor: '#007bff',
+                            borderColor: '#007bff',
+                            borderWidth: 1,
+                            pointBackgroundColor: '#337bff',
+                        }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                parser: hourFormat,
+                                tooltipFormat: timeFormat
+                            },
+                            scaleLabel: {
+                                display: false,
+                                labelString: 'Time'
+                            },
+                            ticks: {
+                                major: {
+                                    enabled: true,
+                                    fontStyle: 'bold'
+                                },
+                                source: 'data',
+                                autoSkip: true,
+                                autoSkipPadding: 75,
+                                maxRotation: 0,
+                                sampleSize: 100
+                            }
+                        }],
+                        yAxes: [{
+                            //display: true,
+                            //scaleLabel: {
+                            //    display: true,
+                            //    labelString: 'value'
+                            //},
+                            ticks: {
+                                beginAtZero: false,
+                            },
+                            min: 0,
+                            max: 100,
+                        }]
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        point: {
+                            radius: 1
+                        }
+                    },
+                    legend: {
+                        display: false,
+                    }
+                }
+            });
+            return chart;
+        };
+        function UpdateMonitoring() {
+            submitAjaxPost('/Index?handler=UpdateDiag', null, function (d, status, xhr) {
+                if (d) {
+                    if (d.CPULoad) {
+                        $('#lblCPULoad').text(d.CPULoad.toFixed(2) + ' %');
+                    }
+                    if (d.CPUTemp) {
+                        $('#lblCPUTemp').text(d.CPUTemp.toFixed(2) + ' C');
+                    }
+                    if (d.MemoryLoad) {
+                        $('#lblMemoryLoad').text(d.MemoryLoad.toFixed(2) + ' %');
+                    }
+                }
+            });
+        }
+        function initChartHistory(dataArr) {
+            let chartNames = Object.keys(liveChart);
+            let chartData = {};
+            let labelData = {};
+
+            for (var j = 0; j < dataArr.length; j++) {
+                let rawData = dataArr[j];
+                for (var i = 0; i < chartNames.length; i++) {
+                    if (!chartData[chartNames[i]]) {
+                        chartData[chartNames[i]] = [];
+                        labelData[chartNames[i]] = [];
+                    }
+                    var val = parseFloat(0);
+                    if (dataArr[j][chartNames[i]] && dataArr[j][chartNames[i]] != 'NaN')
+                        val = parseFloat(dataArr[j][chartNames[i]].toFixed(2));
+                    var dt = new Date(dataArr[j].Time);
+                    labelData[chartNames[i]].push(dt);
+                    chartData[chartNames[i]].push({
+                        x: dt,
+                        y: val
+                    });
+                }
+            }
+
+            for (var i = 0; i < chartNames.length; i++) {
+                let chartName = chartNames[i];
+                var config = liveChart[chartName].config;
+
+                config.data.labels = labelData[chartName];
+                config.data.datasets[0].data = chartData[chartName];
+                liveChart[chartName].update();
+            }
+        };
+        function updateLiveChart(data, propName) {
+            var config = liveChart[propName].config;
+            var value = 0.0;
+            var dt = new Date(data.Time);
+            if (data[propName] && data[propName] != 'NaN')
+                value = parseFloat(data[propName]);
+            value = parseFloat(value.toFixed(2));
+            if (config.data.datasets.length > 0) {
+                config.data.labels.push(dt);
+                config.data.datasets[0].data.push({
+                    x: dt,
+                    y: value
+                });
+            }
+            if (config.data.datasets[0].data.length > maxData) {
+                config.data.labels.splice(0, 1);
+                config.data.datasets[0].data.splice(0, 1);
+            }
+            liveChart[propName].update();
+        };
+
+        $(function () {
+            // update diag using HTTP post interval
+            //setInterval(UpdateMonitoring, 1000);
+
+            // init chart
+            for (var i = 0; i < chartIDArr.length; i++) {
+                var ctx = document.getElementById('chart' + chartIDArr[i]);
+                liveChart[chartIDArr[i]] = createChart(ctx);
+            }
+            initChartHistory(historyDataArr);
+            // update diag using web socket (signalr)
+            var connection = new signalR.HubConnectionBuilder().withUrl("/ws/diag").build();
+            connection.on("Diag", function (result) {
+                var d = JSON.parse(result);
+                if (d) {
+                    var val = 0.0;
+                    if (d.CPULoad) {
+                        if (d.CPULoad != 'NaN')
+                            val = d.CPULoad
+                        $('#lblCPULoad').text(val.toFixed(2) + ' %');
+                        updateLiveChart(d, 'CPULoad');
+                    }
+                    val = 0.0;
+                    if (d.CPUTemp) {
+                        if (d.CPUTemp != 'NaN')
+                            val = d.CPUTemp
+                        $('#lblCPUTemp').text(val.toFixed(2) + ' C');
+                        updateLiveChart(d, 'CPUTemp');
+                    }
+                    val = 0.0;
+                    if (d.MemoryLoad) {
+                        if (d.MemoryLoad != 'NaN')
+                            val = d.MemoryLoad
+                        $('#lblMemoryLoad').text(val.toFixed(2) + ' %');
+                        updateLiveChart(d, 'MemoryLoad');
+                    }
+                }
+            });
+            connection.start().then(function () {
+
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+    </script>
+}

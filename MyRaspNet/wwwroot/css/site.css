@@ -1,0 +1,334 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+
+
+/*Icon Stack*/
+.icon-stack {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.icon-stack-1x,
+.icon-stack-2x,
+.icon-stack-3x {
+    position: absolute !important;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    line-height: inherit !important;
+}
+
+.icon-stack-1x {
+    font-size: 0.5em;
+}
+
+.icon-stack-2x {
+    font-size: 0.70em;
+    /*padding-right: 0.025em;*/
+}
+
+.icon-stack-3x {
+    font-size: 1em;
+}
+
+.icon-stack-xl {
+    font-size: 3.125rem;
+}
+
+.icon-stack-lg {
+    font-size: 2.5rem;
+}
+
+.icon-stack-md {
+    font-size: 2.125rem;
+}
+
+.icon-stack-sm {
+    font-size: 1.875rem;
+}
+
+
+/* alphas */
+.opacity-5 {
+    opacity: 0.05;
+}
+
+.opacity-10 {
+    opacity: 0.1;
+}
+
+.opacity-15 {
+    opacity: 0.15;
+}
+
+.opacity-20 {
+    opacity: 0.2;
+}
+
+.opacity-25 {
+    opacity: 0.25;
+}
+
+.opacity-30 {
+    opacity: 0.3;
+}
+
+.opacity-35 {
+    opacity: 0.35;
+}
+
+.opacity-40 {
+    opacity: 0.4;
+}
+
+.opacity-45 {
+    opacity: 0.45;
+}
+
+.opacity-50 {
+    opacity: 0.5;
+}
+
+.opacity-55 {
+    opacity: 0.55;
+}
+
+.opacity-60 {
+    opacity: 0.6;
+}
+
+.opacity-65 {
+    opacity: 0.65;
+}
+
+.opacity-70 {
+    opacity: 0.7;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.opacity-80 {
+    opacity: 0.8;
+}
+
+.opacity-85 {
+    opacity: 0.85;
+}
+
+.opacity-90 {
+    opacity: 0.9;
+}
+
+.opacity-95 {
+    opacity: 0.95;
+}
+
+.opacity-100 {
+    opacity: 1;
+}
+.font-1p2x {
+    font-size: 1.2em;
+}
+
+.font-1p5x {
+    font-size: 1.5em;
+}
+.font-1p8x {
+    font-size: 1.8em;
+}
+
+.font-2x {
+    font-size: 2em;
+}
+
+.font-3x {
+    font-size: 3em;
+}
+
+.font-4x {
+    font-size: 4em;
+}
+
+.font-5x {
+    font-size: 5em;
+}
+.font-6x {
+    font-size: 6em;
+}
+.font-7x {
+    font-size: 7em;
+}
+.font-8x {
+    font-size: 8em;
+}
+.font-9x {
+    font-size: 9em;
+}
+.font-10x {
+    font-size: 10em;
+}
+.font-11x {
+    font-size: 11em;
+}
+.font-12x {
+    font-size: 12em;
+}
+.vertical-align-midddle {
+    vertical-align: middle;
+}
+.vertical-align-top {
+    vertical-align: top;
+}
+.vertical-align-bottom {
+    vertical-align: bottom;
+}
+
+.color-fusion-50 {
+    color: #909090;
+}
+
+.color-fusion-100 {
+    color: #838383;
+}
+
+.color-fusion-200 {
+    color: #767676;
+}
+
+.color-fusion-300 {
+    color: dimgray;
+}
+
+.color-fusion-400 {
+    color: #5d5d5d;
+}
+
+.color-fusion-500 {
+    color: #505050;
+}
+
+.color-fusion-600 {
+    color: #434343;
+}
+
+.color-fusion-700 {
+    color: #363636;
+}
+
+.color-fusion-800 {
+    color: #2a2a2a;
+}
+
+.color-fusion-900 {
+    color: #1d1d1d;
+}
+
+.color-white {
+    color: #fff;
+}
+
+.color-black {
+    color: #222222;
+}
+
+
+.gpio-row {
+   /* height: 24px;*/
+}
+.gpio-icon-pin {
+}
+i.gpio-icon-pin {
+    margin-top: -10px;
+    position: relative;
+}
+.gpio-pin {
+    width: 40px;
+    text-align: center;
+}
+.gpio-label {
+    width: 80px;
+}
+.gpio-alternate-label {
+    width: 100px;
+}
+select.gpio-mode {
+    width: 130px;
+}

@@ -1,0 +1,309 @@
+﻿@page
+@using System.Device.Gpio
+@model GPIOModel
+@{
+    ViewData["Title"] = "Home page";
+
+    var maps = Model.PinMaps;
+    var total = maps.Length;
+    var rowCount = total / 2;
+    if (total % 2 != 0)
+        rowCount++;
+    Dictionary<RaspberryPinMap, Tuple<PinMode, PinValue>> dicRaspValues = new Dictionary<RaspberryPinMap, Tuple<PinMode, PinValue>>();
+    foreach (var item in maps)
+    {
+        if (item.Disabled || !item.IsPinModeEnabled)
+            continue;
+        dicRaspValues.Add(item, new Tuple<PinMode, PinValue>(item.CurrentPinMode(), item.ReadPinValue()));
+    }
+}
+@section Head {
+    <link href="~/css/nextgenicons.css" rel="stylesheet" />
+}
+@Html.AntiForgeryToken()
+<select disabled>
+    @foreach (var item in Model.SerialPortNames)
+    {
+        <option value="@item">@item</option>
+    }
+</select>
+
+<div class="row">
+    <div class="col-6 pr-0">
+        <div>
+            <div class="d-flex flex-row-reverse gpio-row">
+                <div class="gpio-icon-pin">
+                    @*<i class="mdi mdi-record-circle-outline font-1p5x" style="color: transparent;"></i>*@
+                    <i class="fal fa-scrubber" style="color: transparent;"></i>
+                </div>
+                <div class="gpio-pin">PIN</div>
+                <div class="gpio-label d-none d-md-block">LABEL</div>
+                <div class="gpio-alternate-label d-none d-lg-block">ALTERNATE</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-6 pl-0">
+        <div>
+            <div class="d-flex flex-row gpio-row">
+                <div class="gpio-icon-pin">
+                    @*<i class="gpio-icon-pin mdi mdi-record-circle-outline font-1p5x" style="color: transparent;"></i>*@
+                    <i class="fal fa-scrubber font-1p5x" style="color: transparent;"></i>
+                </div>
+                <div class="gpio-pin">PIN</div>
+                <div class="gpio-label d-none d-md-block" style="text-align: right">LABEL</div>
+                <div class="gpio-alternate-label d-none d-lg-block" style="text-align: right">ALTERNATE</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@for (int i = 1; i <= rowCount; i++)
+{
+    var idx1 = 2 * (i - 1);
+    var idx2 = idx1 + 1;
+    var map1 = maps[idx1];
+    var map2 = idx2 < total ? maps[idx2] : default(RaspberryPinMap);
+
+    <div class="row">
+        @if (map1 != null)
+        {
+            var basePinStyle = map1.PinNo == 1 ? "base-1" : "base-7";
+            <div class="col-6 pr-0">
+                <div class="d-flex flex-row-reverse gpio-row">
+                    <div class="gpio-icon-pin">
+                        @if (!map1.Disabled && map1.AvaiableModes.Length > 0)
+                        {
+                            var val = dicRaspValues.ContainsKey(map1) ? dicRaspValues[map1] : default(Tuple<PinMode, PinValue>);
+                            <a id="gpio_@map1.PinNo" href="javascript:;" class="gpio-icon-pin" title="Pin @map1.PinNo">
+                                @if (val != null && val.Item2 == PinValue.High)
+                                {
+                                    <div class='icon-stack font-2x'>
+                                        <i class="base @basePinStyle icon-stack-3x opacity-100 @map1.Style"></i>
+                                        <i class="base base-7 icon-stack-1x opacity-100 text-danger"></i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class='icon-stack font-2x'>
+                                        <i class="base @basePinStyle icon-stack-3x opacity-100 @map1.Style"></i>
+                                        <i class="base base-7 icon-stack-1x opacity-100 color-white"></i>
+                                    </div>
+                                }
+                            </a>
+                        }
+                        else
+                        {
+                            <div class='icon-stack font-2x'>
+                                <i class="base @basePinStyle icon-stack-3x opacity-100 @map1.Style"></i>
+                                <i class="base base-7 icon-stack-1x opacity-100 color-white"></i>
+                            </div>
+                        }
+                    </div>
+                    <div class="gpio-pin">@map1.PinNo</div>
+                    <div class="gpio-label d-none d-md-block">@map1.Label</div>
+                    <div class="gpio-alternate-label d-none d-lg-block">@map1.AlternateLabel</div>
+                    @if (!map1.Disabled && map1.AvaiableModes.Length > 0)
+                    {
+                        var val = dicRaspValues.ContainsKey(map1) ? dicRaspValues[map1] : default(Tuple<PinMode, PinValue>);
+                        <div class="pr-1 pl-1">
+                            <select id="cbMode_@map1.PinNo" class="gpio-mode" @(map1.IsPinModeEnabled ? "" : "disabled='disabled'")>
+                                @foreach (var item in map1.AvaiableModes)
+                                {
+                                    if (val != null && item == val.Item1)
+                                    {
+                                        <option value="@item.ToString()" selected="selected">@item.ToString()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ToString()">@item.ToString()</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="gpio-enable">
+                            <input id="cbEnable_@map1.PinNo" type="checkbox" @(map1.IsPinModeEnabled ? "checked='checked'" : "") />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        @if (map2 != null)
+        {
+            var basePinStyle = map2.PinNo == 1 ? "base-1" : "base-7";
+            <div class="col-6 pl-0">
+                <div class="d-flex flex-row gpio-row">
+                    <div class="gpio-icon-pin">
+                        @if (!map2.Disabled && map2.AvaiableModes.Length > 0)
+                        {
+                            var val = dicRaspValues.ContainsKey(map2) ? dicRaspValues[map2] : default(Tuple<PinMode, PinValue>);
+                            <a id="gpio_@map2.PinNo" class="gpio-icon-pin" href="javascript:;" title="Pin @map2.PinNo">
+                                @if (val != null && val.Item2 == PinValue.High)
+                                {
+                                    <div class='icon-stack font-2x'>
+                                        <i class="base @basePinStyle icon-stack-3x opacity-100 @map2.Style"></i>
+                                        <i class="base base-7 icon-stack-1x opacity-100 text-danger"></i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class='icon-stack font-2x'>
+                                        <i class="base @basePinStyle icon-stack-3x opacity-100 @map2.Style"></i>
+                                        <i class="base base-7 icon-stack-1x opacity-100 color-white"></i>
+                                    </div>
+                                }
+                            </a>
+                        }
+                        else
+                        {
+                            <div class='icon-stack font-2x'>
+                                <i class="base @basePinStyle icon-stack-3x opacity-100 @map2.Style"></i>
+                                <i class="base base-7 icon-stack-1x opacity-100 color-white"></i>
+                            </div>
+                        }
+                    </div>
+                    <div class="gpio-pin">@map2.PinNo</div>
+                    <div class="gpio-label d-none d-md-block" style="text-align: right">@map2.Label</div>
+                    <div class="gpio-alternate-label d-none d-lg-block" style="text-align: right">@map2.AlternateLabel</div>
+                    @if (!map2.Disabled && map2.AvaiableModes.Length > 0)
+                    {
+                        var val = dicRaspValues.ContainsKey(map2) ? dicRaspValues[map2] : default(Tuple<PinMode, PinValue>);
+                        <div class="pr-1 pl-1">
+                            <select id="cbMode_@map2.PinNo" class="gpio-mode" @(map2.IsPinModeEnabled ? "" : "disabled='disabled'")>
+                                @foreach (var item in map2.AvaiableModes)
+                                {
+                                    if (val != null && item == val.Item1)
+                                    {
+                                        <option value="@item.ToString()" selected="selected">@item.ToString()</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ToString()">@item.ToString()</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="gpio-enable">
+                            <input type="checkbox" id="cbEnable_@map2.PinNo" @(map2.IsPinModeEnabled ? "checked='checked'" : "") />
+                        </div>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+}
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        function OnPinModePostedSuccess(d, status, xhr) {
+            if (d.result && d.enabled != undefined) {
+                var last_el = $('#gpio_' + d.pinNo + ' i').last();
+                if (last_el.hasClass('text-danger'))
+                    last_el.removeClass('text-danger');
+                last_el.addClass('color-white');
+                if (d.enabled) {
+                    $('#cbMode_' + d.pinNo).prop('disabled', '');
+                }
+                else {
+                    $('#cbMode_' + d.pinNo).prop('disabled', 'disabled');
+                }
+            }
+        }
+        function OnSetPinValuePostedSuccess(d, status, xhr) {
+            if (d.result && d.enabled != undefined && d.enabled) {
+                var last_el = $('#gpio_' + d.pinNo + ' i').last();
+                last_el.removeClass('text-danger');
+                last_el.removeClass('color-white');
+                if (d.pinValue) {
+                    last_el.addClass('text-danger');
+                }
+                else {
+                    last_el.addClass('color-white');
+                }
+            }
+        }
+        $(function () {
+
+            $("input:checkbox").change(function () {
+                var id = $(this).attr('id').replace('cbEnable_', '');
+                var mode = $('#cbMode_' + id).val();
+                var enabled = $('#cbEnable_' + id).is(":checked");
+                //if (enabled)
+                //    submitAjaxPost('/GPIO?handler=OpenPin', { pinNo: id, pinMode: mode }, OnPinModePostedSuccess, function () {
+                //        $('#cbEnable_' + id).prop('checked', !enabled);
+                //    });
+                //else
+                //    submitAjaxPost('/Index?handler=ClosePin', { pinNo: id }, OnPinModePostedSuccess);
+                if (enabled)
+                    submitAjaxPost('/GPIO?handler=OpenPin', { pinNo: id, pinMode: mode });
+                else
+                    submitAjaxPost('/Index?handler=ClosePin', { pinNo: id });
+
+            });
+            $("select.gpio-mode").change(function () {
+                var id = $(this).attr('id').replace('cbMode_', '');
+                var mode = $('#cbMode_' + id).val();
+                var enabled = $('#cbEnable_' + id).is(":checked");
+                //if (enabled)
+                //    submitAjaxPost('/GPIO?handler=OpenPin', { pinNo: id, pinMode: mode }, OnPinModePostedSuccess);
+                if (enabled)
+                    submitAjaxPost('/GPIO?handler=OpenPin', { pinNo: id, pinMode: mode });
+            });
+            $("a.gpio-icon-pin").click(function () {
+                var id = $(this).attr('id').replace('gpio_', '');
+                var mode = $('#cbMode_' + id).val();
+                var enabled = $('#cbEnable_' + id).is(":checked");
+                if (enabled && mode == 'Output') {
+                    var last_el = $('#gpio_' + id + ' i').last();
+                    var pinValue = true;
+                    if (last_el.hasClass('text-danger'))
+                        pinValue = false;
+                    //submitAjaxPost('/GPIO?handler=SetPinValue', { pinNo: id, pinValue: pinValue }, OnSetPinValuePostedSuccess);
+                    submitAjaxPost('/GPIO?handler=SetPinValue', { pinNo: id, pinValue: pinValue });
+                }
+            });
+
+            // using web socket (signalr)
+            var connection = new signalR.HubConnectionBuilder().withUrl("/ws/gpio").build();
+            connection.on("ModeChanged", function (result) {
+                var d = JSON.parse(result);
+                if (d) {
+                    var last_el = $('#gpio_' + d.PinNo + ' i').last();
+                    if (last_el.hasClass('text-danger'))
+                        last_el.removeClass('text-danger');
+                    last_el.addClass('color-white');
+                    if (d.Enabled) {
+                        $('#cbMode_' + d.PinNo).prop('disabled', '');
+                    }
+                    else {
+                        $('#cbMode_' + d.PinNo).prop('disabled', 'disabled');
+                    }
+                    $('#cbMode_' + d.PinNo).val(d.PinMode);
+                }
+            });
+            connection.on("ValueChanged", function (result) {
+                var d = JSON.parse(result);
+                if (d) {
+                    var last_el = $('#gpio_' + d.PinNo + ' i').last();
+                    last_el.removeClass('text-danger');
+                    last_el.removeClass('color-white');
+                    if (d.PinValue) {
+                        last_el.addClass('text-danger');
+                    }
+                    else {
+                        last_el.addClass('color-white');
+                    }
+                }
+            });
+            connection.start().then(function () {
+
+            }).catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+    </script>
+}

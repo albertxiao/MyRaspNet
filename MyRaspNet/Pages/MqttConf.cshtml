@@ -1,0 +1,181 @@
+﻿@page
+@model MyRaspNet.Pages.MqttConfModel
+@{
+    var modes = Enum.GetValues<MyRaspNet.Configuration.MQTTMode>();
+}
+
+@Html.AntiForgeryToken()
+<form id="form_mqtt" method="post">
+    <div class="form-group row">
+        <label for="cbMQTTMode" class="col-sm-2 col-form-label">MQTT MODE</label>
+        <div class="col-sm-10">
+            <select id="cbMQTTMode" class="form-control" asp-for="Setting.MQTTMode">
+                @foreach (var mode in modes)
+                {
+                    if (Model.Setting.MQTTMode == mode)
+                    {
+                        <option value="@mode.ToString()" selected="selected">@mode.ToString()</option>
+                    }
+                    else
+                    {
+                        <option value="@mode.ToString()">@mode.ToString()</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="tbDeviceName" class="col-sm-2 col-form-label">Device Name</label>
+        <div class="col-sm-10">
+            <input type="text" asp-for="Setting.DeviceName" class="form-control" id="tbDeviceName" placeholder="Device Name"  required />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="tbTopicTemplate" class="col-sm-2 col-form-label">Topic Template</label>
+        <div class="col-sm-10">
+            <input type="text" asp-for="Setting.MQTTTopicTemplate" class="form-control" id="tbTopicTemplate" placeholder="Topic Template" required />
+        </div>
+    </div>
+    @*<fieldset class="border p-2" title="SERVER">
+            <legend class="w-auto">SERVER</legend>
+            <fieldset class="border p-2" title="Tcp End Point">
+                <legend class="w-auto">Tcp End Point</legend>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Enabled</label>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="cbTcpEndPointEnabled" value="@Model.ServerSetting.TcpEndPoint.Enabled" />
+                            <label class="form-check-label" for="cbTcpEndPointEnabled">
+                                Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tbTcpEndPointPort" class="col-sm-2 col-form-label">Port</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="tbTcpEndPointPort" placeholder="Port" value="@Model.ServerSetting.TcpEndPoint.Port" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tbTcpEndPointIPv4" class="col-sm-2 col-form-label">Allowed IP v4</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="tbTcpEndPointIPv4" placeholder="IPv4" value="@Model.ServerSetting.TcpEndPoint.IPv4" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tbTcpEndPointIPv6" class="col-sm-2 col-form-label">Allowed IP v6</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="tbTcpEndPointIPv6" placeholder="IPv6" value="@Model.ServerSetting.TcpEndPoint.IPv6" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="border p-2" title="Encrypted Tcp End Point">
+                <legend class="w-auto">Encrypted Tcp End Point</legend>
+                <div class="form-group row">
+                    <label for="cbEncryptedTcpEndPointEnabled" class="col-sm-2 col-form-label">Enabled</label>
+                    <div class="col-sm-10">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="cbEncryptedTcpEndPointEnabled" value="@Model.ServerSetting.EncryptedTcpEndPoint.Enabled" />
+                            <label class="form-check-label" for="cbEncryptedTcpEndPointEnabled">
+                                Yes
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="tbEncryptedTcpEndPointPort" class="col-sm-2 col-form-label">Port</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="tbEncryptedTcpEndPointPort" placeholder="Port" value="@Model.ServerSetting.EncryptedTcpEndPoint.Port" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tbEncryptedTcpEndPointIPv4" class="col-sm-2 col-form-label">Allowed IP v4</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="tbEncryptedTcpEndPointIPv4" placeholder="IPv4" value="@Model.ServerSetting.EncryptedTcpEndPoint.IPv4" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tbEncryptedTcpEndPointIPv6" class="col-sm-2 col-form-label">Allowed IP v6</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="tbEncryptedTcpEndPointIPv6" placeholder="IPv6" value="@Model.ServerSetting.EncryptedTcpEndPoint.IPv6" />
+                    </div>
+                </div>
+            </fieldset>
+        </fieldset>*@
+    <fieldset id="fsClient" class="border p-2 @(Model.Setting.MQTTMode == Configuration.MQTTMode.Bridge || Model.Setting.MQTTMode == Configuration.MQTTMode.Client ? "" : "d-none")" title="CLIENT">
+        <legend class="w-auto">CLIENT</legend>
+        <div class="form-group row">
+            <label for="tbClientHost" class="col-sm-2 col-form-label">Host</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tbClientHost" placeholder="Host" value="@Model.ClientSetting.Host" @(Model.Setting.MQTTMode == Configuration.MQTTMode.Bridge || Model.Setting.MQTTMode == Configuration.MQTTMode.Client ? "required" : "") />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tbClientPort" class="col-sm-2 col-form-label">Port</label>
+            <div class="col-sm-10">
+                <input type="number" min="1" class="form-control" id="tbClientPort" placeholder="Port" value="@Model.ClientSetting.Port" @(Model.Setting.MQTTMode == Configuration.MQTTMode.Bridge || Model.Setting.MQTTMode == Configuration.MQTTMode.Client ? "required" : "") />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tbClientIdTemplate" class="col-sm-2 col-form-label">Client ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tbClientIdTemplate" placeholder="Client ID" value="@Model.ClientSetting.ClientIdTemplate" @(Model.Setting.MQTTMode == Configuration.MQTTMode.Bridge || Model.Setting.MQTTMode == Configuration.MQTTMode.Client ? "required" : "") />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tbClientUser" class="col-sm-2 col-form-label">User</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tbClientUser" placeholder="User" value="@Model.ClientSetting.User" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tbClientPassword" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="tbClientPassword" placeholder="Password" value="@Model.ClientSetting.Password" />
+            </div>
+        </div>
+    </fieldset>
+    <div class="row d-flex flex-row-reverse pt-5">
+        <div class="pr-2">
+            <button id="btnSubmit" type="submit" style="width: 120px;" class="btn btn-success btn-block btn-lgt"><i class="fal fa-save fs-lg mr-1"></i>Save</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            $('#cbMQTTMode').change(function () {
+                var newVal = $(this).val();
+                switch (newVal) {
+                    case 'Bridge':
+                    case 'Client':
+                        $('#fsClient').removeClass('d-none');
+                        $('#tbClientHost').prop('required', true);
+                        $('#tbClientPort').prop('required', true);
+                        $('#tbClientID').prop('required', true);
+                        break;
+                    default:
+                        $('#fsClient').addClass('d-none');
+                        $('#tbClientHost').prop('required', '');
+                        $('#tbClientPort').prop('required', '');
+                        $('#tbClientID').prop('required', '');
+                        break;
+                }
+            });
+            $("#btnSubmit").click(function (event) {
+                // Fetch form to apply custom Bootstrap validation
+                var form = $("#form_mqtt");
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.addClass('was-validated');
+                // Perform ajax submit here...
+            });
+        });
+    </script>
+}

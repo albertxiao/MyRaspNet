@@ -1,0 +1,786 @@
+﻿
+/*!
+ * WebApp Icons
+ */
+@font-face {
+    font-family: 'nextgen-icons';
+    src: url("../fonts/nextgen-icons.eot");
+    src: url("../fonts/nextgen-icons.eot?#iefix") format("embedded-opentype"), url("../fonts/nextgen-icons.woff2") format("woff2"), url("../fonts/webfonts/nextgen-icons.woff") format("woff"), url("../fonts/webfonts/nextgen-icons.ttf") format("truetype"), url("../fonts/webfonts/nextgen-icons.svg#nextgen-icons") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+.ni,
+[data-icon]:before,
+[class^="base-"],
+[class*=" base-"] {
+    font-family: 'nextgen-icons';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+/* why?
+.page-content {
+	.ni:before,
+	[data-icon]:before {
+		vertical-align: -8%;
+	}
+}*/
+.navbar-toggler .ni:before,
+.navbar-toggler [data-icon]:before {
+    vertical-align: inherit !important;
+}
+
+.base-19:before {
+    content: "\e09b";
+}
+
+.base-18:before {
+    content: "\e09c";
+}
+
+.base-17:before {
+    content: "\e09d";
+}
+
+.base-16:before {
+    content: "\e09e";
+}
+
+.base-15:before {
+    content: "\e09f";
+}
+
+.base-14:before {
+    content: "\e0a0";
+}
+
+.base-13:before {
+    content: "\e0a1";
+}
+
+.base-12:before {
+    content: "\f000";
+}
+
+.base-11:before {
+    content: "\f00b";
+}
+
+.base-10:before {
+    content: "\f00a";
+}
+
+.base-9:before {
+    content: "\f1c8";
+}
+
+.base-8:before {
+    content: "\f1e3";
+}
+
+.base-7:before {
+    content: "\f413";
+}
+
+.base-6:before {
+    content: "\f412";
+}
+
+.base-5:before {
+    content: "\f411";
+}
+
+.base-4:before {
+    content: "\f410";
+}
+
+.base-3:before {
+    content: "\f409";
+}
+
+.base-2:before {
+    content: "\f408";
+}
+
+.base-1:before {
+    content: "\f405";
+}
+
+.md-profile:before {
+    content: "\f407";
+}
+
+.md-picframe:before {
+    content: "\f406";
+}
+
+.ni-phone:before {
+    content: "\f402";
+}
+
+.ni-calendar-fine:before {
+    content: "\f403";
+}
+
+.ni-blog-read:before {
+    content: "\f404";
+}
+
+.ni-my-apps:before {
+    content: "\f328";
+}
+
+.ni-big-plus:before {
+    content: "\f276";
+}
+
+.ni-minify-nav:before {
+    content: "\f254";
+}
+
+.ni-lock-nav:before {
+    content: "\f2ae";
+}
+
+.ni-chevron-down:before {
+    content: "\f2f9";
+}
+
+.ni-chevron-up:before {
+    content: "\f2fc";
+}
+
+.ni-chevron-left:before {
+    content: "\f2fa";
+}
+
+.ni-chevron-right:before {
+    content: "\f2fb";
+}
+
+.ni-menu:before {
+    content: "\e000";
+}
+
+.ni-user-follow:before {
+    content: "\e002";
+}
+
+.ni-user-following:before {
+    content: "\e003";
+}
+
+.ni-user-unfollow:before {
+    content: "\e004";
+}
+
+.ni-trophy:before {
+    content: "\e006";
+}
+
+.ni-screen-smartphone:before {
+    content: "\e010";
+}
+
+.ni-screen-desktop:before {
+    content: "\e011";
+}
+
+.ni-plane:before {
+    content: "\e012";
+}
+
+.ni-notebook:before {
+    content: "\e013";
+}
+
+.ni-moustache:before {
+    content: "\e014";
+}
+
+.ni-mouse:before {
+    content: "\e015";
+}
+
+.ni-magnet:before {
+    content: "\e016";
+}
+
+.ni-energy:before {
+    content: "\e020";
+}
+
+.ni-emoticon-smile:before {
+    content: "\e021";
+}
+
+.ni-disc:before {
+    content: "\e022";
+}
+
+.ni-cursor-move:before {
+    content: "\e023";
+}
+
+.ni-crop:before {
+    content: "\e024";
+}
+
+.ni-credit-card:before {
+    content: "\e025";
+}
+
+.ni-chemistry:before {
+    content: "\e026";
+}
+
+.ni-user:before {
+    content: "\e005";
+}
+
+.ni-speedometer:before {
+    content: "\e007";
+}
+
+.ni-social-youtube:before {
+    content: "\e008";
+}
+
+.ni-social-twitter:before {
+    content: "\e009";
+}
+
+.ni-social-tumblr:before {
+    content: "\e00a";
+}
+
+.ni-social-facebook:before {
+    content: "\e00b";
+}
+
+.ni-social-dropbox:before {
+    content: "\e00c";
+}
+
+.ni-social-dribbble:before {
+    content: "\e00d";
+}
+
+.ni-shield:before {
+    content: "\e00e";
+}
+
+.ni-screen-tablet:before {
+    content: "\e00f";
+}
+
+.ni-magic-wand:before {
+    content: "\e017";
+}
+
+.ni-hourglass:before {
+    content: "\e018";
+}
+
+.ni-graduation:before {
+    content: "\e019";
+}
+
+.ni-ghost:before {
+    content: "\e01a";
+}
+
+.ni-game-controller:before {
+    content: "\e01b";
+}
+
+.ni-fire:before {
+    content: "\e01c";
+}
+
+.ni-eyeglasses:before {
+    content: "\e01d";
+}
+
+.ni-envelope-open:before {
+    content: "\e01e";
+}
+
+.ni-envelope-letter:before {
+    content: "\e01f";
+}
+
+.ni-bell:before {
+    content: "\e027";
+}
+
+.ni-badge:before {
+    content: "\e028";
+}
+
+.ni-anchor:before {
+    content: "\e029";
+}
+
+.ni-wallet:before {
+    content: "\e02a";
+}
+
+.ni-vector:before {
+    content: "\e02b";
+}
+
+.ni-speech:before {
+    content: "\e02c";
+}
+
+.ni-puzzle:before {
+    content: "\e02d";
+}
+
+.ni-printer:before {
+    content: "\e02e";
+}
+
+.ni-present:before {
+    content: "\e02f";
+}
+
+.ni-playlist:before {
+    content: "\e030";
+}
+
+.ni-pin:before {
+    content: "\e031";
+}
+
+.ni-picture:before {
+    content: "\e032";
+}
+
+.ni-map:before {
+    content: "\e033";
+}
+
+.ni-layers:before {
+    content: "\e034";
+}
+
+.ni-handbag:before {
+    content: "\e035";
+}
+
+.ni-globe-alt:before {
+    content: "\e036";
+}
+
+.ni-globe:before {
+    content: "\e037";
+}
+
+.ni-frame:before {
+    content: "\e038";
+}
+
+.ni-folder-alt:before {
+    content: "\e039";
+}
+
+.ni-film:before {
+    content: "\e03a";
+}
+
+.ni-feed:before {
+    content: "\e03b";
+}
+
+.ni-earphones-alt:before {
+    content: "\e03c";
+}
+
+.ni-earphones:before {
+    content: "\e03d";
+}
+
+.ni-drop:before {
+    content: "\e03e";
+}
+
+.ni-drawer:before {
+    content: "\e03f";
+}
+
+.ni-docs:before {
+    content: "\e040";
+}
+
+.ni-directions:before {
+    content: "\e041";
+}
+
+.ni-direction:before {
+    content: "\e042";
+}
+
+.ni-diamond:before {
+    content: "\e043";
+}
+
+.ni-cup:before {
+    content: "\e044";
+}
+
+.ni-compass:before {
+    content: "\e045";
+}
+
+.ni-call-out:before {
+    content: "\e046";
+}
+
+.ni-call-in:before {
+    content: "\e047";
+}
+
+.ni-call-end:before {
+    content: "\e048";
+}
+
+.ni-calculator:before {
+    content: "\e049";
+}
+
+.ni-bubbles:before {
+    content: "\e04a";
+}
+
+.ni-briefcase:before {
+    content: "\e04b";
+}
+
+.ni-book-open:before {
+    content: "\e04c";
+}
+
+.ni-basket-loaded:before {
+    content: "\e04d";
+}
+
+.ni-basket:before {
+    content: "\e04e";
+}
+
+.ni-bag:before {
+    content: "\e04f";
+}
+
+.ni-action-undo:before {
+    content: "\e050";
+}
+
+.ni-action-redo:before {
+    content: "\e051";
+}
+
+.ni-wrench:before {
+    content: "\e052";
+}
+
+.ni-umbrella:before {
+    content: "\e053";
+}
+
+.ni-trash:before {
+    content: "\e054";
+}
+
+.ni-tag:before {
+    content: "\e055";
+}
+
+.ni-support:before {
+    content: "\e056";
+}
+
+.ni-size-fullscreen:before {
+    content: "\e057";
+}
+
+.ni-size-actual:before {
+    content: "\e058";
+}
+
+.ni-shuffle:before {
+    content: "\e059";
+}
+
+.ni-share-alt:before {
+    content: "\e05a";
+}
+
+.ni-share:before {
+    content: "\e05b";
+}
+
+.ni-rocket:before {
+    content: "\e05c";
+}
+
+.ni-question:before {
+    content: "\e05d";
+}
+
+.ni-pie-chart:before {
+    content: "\e05e";
+}
+
+.ni-pencil:before {
+    content: "\e05f";
+}
+
+.ni-note:before {
+    content: "\e060";
+}
+
+.ni-music-tone-alt:before {
+    content: "\e061";
+}
+
+.ni-music-tone:before {
+    content: "\e062";
+}
+
+.ni-microphone:before {
+    content: "\e063";
+}
+
+.ni-loop:before {
+    content: "\e064";
+}
+
+.ni-logout:before {
+    content: "\e065";
+}
+
+.ni-login:before {
+    content: "\e066";
+}
+
+.ni-list:before {
+    content: "\e067";
+}
+
+.ni-like:before {
+    content: "\e068";
+}
+
+.ni-home:before {
+    content: "\e069";
+}
+
+.ni-grid:before {
+    content: "\e06a";
+}
+
+.ni-graph:before {
+    content: "\e06b";
+}
+
+.ni-equalizer:before {
+    content: "\e06c";
+}
+
+.ni-dislike:before {
+    content: "\e06d";
+}
+
+.ni-cursor:before {
+    content: "\e06e";
+}
+
+.ni-control-start:before {
+    content: "\e06f";
+}
+
+.ni-control-rewind:before {
+    content: "\e070";
+}
+
+.ni-control-play:before {
+    content: "\e071";
+}
+
+.ni-control-pause:before {
+    content: "\e072";
+}
+
+.ni-control-forward:before {
+    content: "\e073";
+}
+
+.ni-control-end:before {
+    content: "\e074";
+}
+
+.ni-calendar:before {
+    content: "\e075";
+}
+
+.ni-bulb:before {
+    content: "\e076";
+}
+
+.ni-bar-chart:before {
+    content: "\e077";
+}
+
+.ni-arrow-up:before {
+    content: "\e078";
+}
+
+.ni-arrow-right:before {
+    content: "\e079";
+}
+
+.ni-arrow-left:before {
+    content: "\e07a";
+}
+
+.ni-arrow-down:before {
+    content: "\e07b";
+}
+
+.ni-ban:before {
+    content: "\e07c";
+}
+
+.ni-bubble:before {
+    content: "\e07d";
+}
+
+.ni-camcorder:before {
+    content: "\e07e";
+}
+
+.ni-camera:before {
+    content: "\e07f";
+}
+
+.ni-check:before {
+    content: "\e080";
+}
+
+.ni-clock:before {
+    content: "\e081";
+}
+
+.ni-close:before {
+    content: "\e082";
+}
+
+.ni-cloud-download:before {
+    content: "\e083";
+}
+
+.ni-cloud-upload:before {
+    content: "\e084";
+}
+
+.ni-doc:before {
+    content: "\e085";
+}
+
+.ni-envelope:before {
+    content: "\e086";
+}
+
+.ni-eye:before {
+    content: "\e087";
+}
+
+.ni-flag:before {
+    content: "\e088";
+}
+
+.ni-folder:before {
+    content: "\e089";
+}
+
+.ni-heart:before {
+    content: "\e08a";
+}
+
+.ni-info:before {
+    content: "\e08b";
+}
+
+.ni-key:before {
+    content: "\e08c";
+}
+
+.ni-link:before {
+    content: "\e08d";
+}
+
+.ni-lock:before {
+    content: "\e08e";
+}
+
+.ni-lock-open:before {
+    content: "\e08f";
+}
+
+.ni-magnifier:before {
+    content: "\e090";
+}
+
+.ni-magnifier-add:before {
+    content: "\e091";
+}
+
+.ni-magnifier-remove:before {
+    content: "\e092";
+}
+
+.ni-paper-clip:before {
+    content: "\e093";
+}
+
+.ni-paper-plane:before {
+    content: "\e094";
+}
+
+.ni-plus:before {
+    content: "\e095";
+}
+
+.ni-pointer:before {
+    content: "\e096";
+}
+
+.ni-power:before {
+    content: "\e097";
+}
+
+.ni-refresh:before {
+    content: "\e098";
+}
+
+.ni-reload:before {
+    content: "\e099";
+}
+
+.ni-settings:before {
+    content: "\e09a";
+}
+
+.ni-users:before {
+    content: "\e001";
+}
