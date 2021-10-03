@@ -531,7 +531,7 @@ namespace MyRaspNet
         }
         public PinValue ReadPinValue()
         {
-#if Linux
+#if !DEV_ON_WINDOWS
             return device.Controller.Read(PinNo);
 #else
             return PinValue.Low;
@@ -539,7 +539,7 @@ namespace MyRaspNet
         }
         public void WritePinValue(PinValue value)
         {
-#if Linux
+#if !DEV_ON_WINDOWS
             device.Controller.Write(PinNo, value);
 #endif
         }

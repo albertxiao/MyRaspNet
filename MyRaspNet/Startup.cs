@@ -310,21 +310,6 @@ namespace MyRaspNet
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     }
                 }
-                //else if (context.Request.Path == "/ws")
-                //{
-                //    if (context.WebSockets.IsWebSocketRequest)
-                //    {
-
-                //        using (var webSocket = await context.WebSockets.AcceptWebSocketAsync().ConfigureAwait(false))
-                //        {
-                //            await device.RunWebSocketConnectionAsync(webSocket, context).ConfigureAwait(false);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //    }
-                //}
                 else
                 {
                     await next().ConfigureAwait(false);
